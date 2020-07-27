@@ -1,0 +1,13 @@
+
+.logo {
+    height: 100px;
+    width: 100px;}
+.left{float: left;}
+.right{float: right;}
+.title{
+   text-align: center;
+  
+}
+.clear {
+    clear: both;
+}

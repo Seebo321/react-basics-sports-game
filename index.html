@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>React Sports Game</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
+  <!-- got sound help from below -->
+    <!-- https://stackoverflow.com/questions/47686345/playing-sound-in-reactjs -->
     <!-- include an element for ReactDOM to attach our React-generated elements to -->
     <div id="root"></div>
 
@@ -19,13 +22,112 @@
     <!-- include our JS+JSX for the React Appliccation -->
 <script type="text/babel">
 
+class Dragons extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.teamName = {
+      team: 'Dragons'
+    };
+    this.shotPercent = {
+      isActive: false 
+    }
+    this.state={
+      score: 0 ,
+      count: 0 ,
+      perecent: null,
+      play: false,
+      pause: true,
+      
+    };
+    this.toggleHidden= this.toggleHidden.bind(this)
+    this.play = this.play.bind(this)
+    this.shoot = this.shoot.bind(this);
+     this.url = "./bounce.mp3";
+    this.audio = new Audio(this.url);
+   
+  } 
+  
+  play(){
+    this.setState({
+      play: true,
+      pause: false
+    });
+    console.log(this.audio);
+    this.audio.play();
+  }
+
+  toggleHidden () {
+     this.shotPercent.isActive=true
+  }
+
+  shoot(event) {
+    this.toggleHidden();
+    this.audio.play();
+    let x =  Math.floor(Math.random() *100);
+    this.setState((state, props) => ({
+    count: state.count + 1,
+  }));
+
+   if(x%2==0){this.setState((score, props) => ({
+    score: score.score + 1
+  }))}    
+  this.setState((state, props) => ({
+    perecent: state.score/state.count*100
+  }));
+ 
+  }
+
+
+  render() {
+    return <div class="left"><img class="logo" src={"dragons.png"}/>
+      <h1 class="team"> {this.teamName.team}</h1>
+        <h3 class="score">SCORE: {this.state.score}</h3><h3>SHOTS: {this.state.count}</h3>
+        
+        {this.shotPercent.isActive ? <h3>SHOT PERCENTAGE %{this.state.perecent}</h3> : null }
+        <button onClick={this.shoot}>shoot!</button> </div>;
+  }
+}
+
+
+
+
+
+
+
+
+
+class Smittens extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.teamName = {
+      team: 'Smittens'
+    };
+    this.state={
+      count: 0
+    };
+    
+  }
+
+  render() {
+    return <div class="right"><h1 class="team"> {this.teamName.team}</h1>
+        <h3 class="score">{this.state.count}</h3><img class="logo" src={"smittens.png"}/>
+        </div>;
+  }
+}
+class Game extends React.Component {
+  render() {
+    return <div><h1 class="title">Welcome to {this.props.name}</h1>
+    <Dragons/>
+<Smittens/>;
+      </div>
+  }
+}
 // An App component under which all other components will be added
 function App (props) {
   return (
-    <div>
-      <h1>Welcome to the Sports Game starter!</h1>
-      <em>This file represents the way your code should look after completing the <strong>Setup</strong> steps in the instructions.</em>
-    </div>
+<Game name='Three Lakes'/>
   )
 }
 
