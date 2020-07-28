@@ -28,13 +28,10 @@
     <!-- include our JS+JSX for the React Appliccation -->
 <script type="text/babel">
 
-class Dragons extends React.Component {
+class TeamOne extends React.Component {
   constructor(props) {
     super(props);
 
-    this.teamName = {
-      team: 'Dragons'
-    };
     this.shotPercent = {
       isActive: false 
     }
@@ -44,7 +41,6 @@ class Dragons extends React.Component {
       perecent: null,
       play: false,
       pause: true,
-      
     };
     this.toggleHidden= this.toggleHidden.bind(this)
     this.play = this.play.bind(this)
@@ -79,61 +75,98 @@ class Dragons extends React.Component {
     score: score.score + 1
   }))}    
   this.setState((state, props) => ({
-    perecent: state.score/state.count*100
+    perecent: Math.round(state.score/state.count*100)
   }));
  
   }
 
 
   render() {
-    return <div class="left"><img class="logo" src={"dragons.png"}/>
-      <h1 class="team"> {this.teamName.team}</h1>
-        <h3 class="score">SCORE: {this.state.score}</h3><h3>SHOTS: {this.state.count}</h3>
+    return <div class="left"><img class="logo" src={this.props.ImgSource}/>
+      <h1 class="team"> {this.props.teamName}</h1>
+        <h3 class="numbers">SCORE: {this.state.score}</h3><h3 class="numbers">SHOTS: {this.state.count}</h3>
         
-        {this.shotPercent.isActive ? <h3>SHOT PERCENTAGE %{this.state.perecent}</h3> : null }
+        {this.shotPercent.isActive ? <h3 class="numbers">SHOT PERCENTAGE %{this.state.perecent}</h3> : null }
         <button onClick={this.shoot}>shoot!</button> </div>;
   }
 }
 
 
 
-
-
-
-
-
-
-class Smittens extends React.Component {
+class TeamTwo extends React.Component {
   constructor(props) {
     super(props);
 
-    this.teamName = {
-      team: 'Smittens'
-    };
+    this.shotPercent = {
+      isActive: false 
+    }
     this.state={
-      count: 0
+      score: 0 ,
+      count: 0 ,
+      perecent: null,
+      play: false,
+      pause: true,
     };
-    
+    this.toggleHidden= this.toggleHidden.bind(this)
+    this.play = this.play.bind(this)
+    this.shoot = this.shoot.bind(this);
+     this.url = "./bounce.mp3";
+    this.audio = new Audio(this.url);
+   
+  } 
+  
+  play(){
+    this.setState({
+      play: true,
+      pause: false
+    });
+    console.log(this.audio);
+    this.audio.play();
   }
 
+  toggleHidden () {
+     this.shotPercent.isActive=true
+  }
+
+  shoot(event) {
+    this.toggleHidden();
+    this.audio.play();
+    let x =  Math.floor(Math.random() *100);
+    this.setState((state, props) => ({
+    count: state.count + 1,
+  }));
+
+   if(x%2==0){this.setState((score, props) => ({
+    score: score.score + 1
+  }))}    
+  this.setState((state, props) => ({
+    perecent: Math.round(state.score/state.count*100)
+  }));
+ 
+  }
+
+
   render() {
-    return <div class="right"><h1 class="team"> {this.teamName.team}</h1>
-        <h3 class="score">{this.state.count}</h3><img class="logo" src={"smittens.png"}/>
-        </div>;
+    return <div class="right"><img class="logo" src={this.props.ImgSource}/>
+      <h1 class="team"> {this.props.teamName}</h1>
+        <h3 class="numbers">SCORE: {this.state.score}</h3><h3 class="numbers">SHOTS: {this.state.count}</h3>
+        
+        {this.shotPercent.isActive ? <h3 class="numbers">SHOT PERCENTAGE %{this.state.perecent}</h3> : null }
+        <button onClick={this.shoot}>shoot!</button> </div>;
   }
 }
 class Game extends React.Component {
   render() {
-    return <div><h1 class="title">Welcome to {this.props.name}</h1>
-    <Dragons/>
-<Smittens/>;
+    return <div><h1 class="title">Welcome to {this.props.venue}!!</h1>
+    <TeamOne teamName= 'Dragons' ImgSource='dragons.png'/>
+<TeamTwo teamName= 'Smittens' ImgSource="smittens.png"/>
       </div>
   }
 }
 // An App component under which all other components will be added
 function App (props) {
   return (
-<Game name='Three Lakes'/>
+<Game venue='Three Lakes'/>
   )
 }
 

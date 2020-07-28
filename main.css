@@ -1,13 +1,32 @@
-
+body{box-sizing: border-box;
+background-image: url(./bbcourt.jpg);
+background-size: cover;
+background-repeat: no-repeat;height: 600px;
+}
+.numbers { font-size:35px;
+    color:rgb(102, 255, 184);
+    -webkit-text-stroke: 1.8px rgba(0, 0, 0, 0.479);
+ 
+    
+}
+.team{
+    font-size: 100px;
+    color:black
+}
 .logo {
     height: 100px;
-    width: 100px;}
+    width: 100px;
+    border-radius: 50%}
 .left{float: left;}
 .right{float: right;}
 .title{
    text-align: center;
+   font-size: 50px;
   
 }
 .clear {
     clear: both;
+}
+button {border-radius: 50%;-webkit-text-stroke: orange 0.2px;
+    font-size: 40px;
 }
